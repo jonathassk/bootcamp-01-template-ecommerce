@@ -19,7 +19,14 @@ public class CreateUserController {
     @PostMapping
     @Transactional
     @ResponseStatus(HttpStatus.CREATED)
-    public User createUser (@Valid @RequestBody UserRequest req) {
-     return null;
+    public String createUser (@RequestBody String req) {
+     return "post";
+    }
+
+    @GetMapping
+    @Transactional
+    @ResponseStatus(HttpStatus.OK)
+    public String getUsers () {
+        return "User";
     }
 }

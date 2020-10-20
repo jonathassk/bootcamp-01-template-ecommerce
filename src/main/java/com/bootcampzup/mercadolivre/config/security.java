@@ -16,6 +16,8 @@ public class security extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers(HttpMethod.POST,"/api/v1/user")
                 .permitAll()
+                .antMatchers(HttpMethod.POST,"/api/v1/categorias")
+                .permitAll()
                 .anyRequest()
                 .authenticated()
                 .and()

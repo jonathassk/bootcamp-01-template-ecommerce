@@ -3,7 +3,9 @@ package com.bootcampzup.mercadolivre.controllers;
 import com.bootcampzup.mercadolivre.models.Users;
 import com.bootcampzup.mercadolivre.requests.UserRequest;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -19,9 +21,9 @@ public class CreateUserController {
     @PostMapping
     @Transactional
     @ResponseStatus(HttpStatus.CREATED)
-    public Users createUser (@Valid @RequestBody UserRequest req) {
+    public ResponseEntity<Users> createUser (@Valid @RequestBody UserRequest req, UriComponentsBuilder uriComponentsBuilder) {
         Users user = req.toModel();
         manager.persist(user);
-        return user;
+        return ResponseEntity.created(uriComponentsBuilder.path("/user/{id}").buildAndExpand(user.getId()).toUri()).body(user);
     }
 }

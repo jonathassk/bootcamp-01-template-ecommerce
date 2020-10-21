@@ -2,8 +2,12 @@ package com.bootcampzup.mercadolivre.config;
 
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 
+import javax.validation.constraints.NotBlank;
+
 public class LoginInputDto {
+    @NotBlank(message = "o email deve ser preenchido")
     private String email;
+    @NotBlank(message = "A senha deve ser preenchida")
     private String password;
 
     public LoginInputDto(String email, String password) {

@@ -18,10 +18,14 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/v1/auth")
 public class AuthenticationController {
+    private final AuthenticationManager authManager;
+    private final TokenManager tokenManager;
+
     @Autowired
-    private AuthenticationManager authManager;
-    @Autowired
-    private TokenManager tokenManager;
+    public AuthenticationController(AuthenticationManager authManager, TokenManager tokenManager) {
+        this.authManager = authManager;
+        this.tokenManager = tokenManager;
+    }
 
     private static final Logger log = LoggerFactory.getLogger(AuthenticationController.class);
 
@@ -34,7 +38,7 @@ public class AuthenticationController {
             return ResponseEntity.ok(jwt);
         } catch (AuthenticationException e) {
             log.error("[Autenticacao] {}", e);
-            return ResponseEntity.badRequest().build();
+            return ResponseEntity.status(401).body("email: "+loginInfo.getEmail());
         }
     }
 }

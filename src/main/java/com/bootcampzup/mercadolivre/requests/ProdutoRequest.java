@@ -1,6 +1,7 @@
 package com.bootcampzup.mercadolivre.requests;
 
 import com.bootcampzup.mercadolivre.annotations.ExistsId;
+import com.bootcampzup.mercadolivre.models.Caracteristica;
 import com.bootcampzup.mercadolivre.models.Categoria;
 import com.bootcampzup.mercadolivre.models.Produto;
 import com.bootcampzup.mercadolivre.models.Users;
@@ -11,6 +12,10 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+import java.util.function.Function;
 
 public class ProdutoRequest {
     @NotBlank(message = "o nome deve ser preenchido")
@@ -24,13 +29,15 @@ public class ProdutoRequest {
     private final String descricao;
     @ExistsId(fieldname = "id", domainClass = Categoria.class, message = "não foi encontrada essa categoria")
     private final long categoriaId;
+    private List<CaracteristicasRequest> caracteristicas = new ArrayList<>();
 
-    public ProdutoRequest(String nome, double valor, int quantidade, String descricao, long categoriaId) {
+    public ProdutoRequest(String nome, double valor, int quantidade, String descricao, long categoriaId, List<CaracteristicasRequest> caracteristicas) {
         this.nome = nome;
         this.valor = valor;
         this.quantidade = quantidade;
         this.descricao = descricao;
         this.categoriaId = categoriaId;
+        this.caracteristicas = caracteristicas;
     }
 
     public long getCategoriaId() {
@@ -38,6 +45,6 @@ public class ProdutoRequest {
     }
 
     public Produto toModel (Categoria categoria, Users usuario) {
-        return new Produto(nome, valor, quantidade, usuario, descricao, categoria, LocalDate.now());
+        return new Produto(nome, valor, quantidade, usuario, descricao, categoria, LocalDate.now(), caracteristicas);
     }
 }

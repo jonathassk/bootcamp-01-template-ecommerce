@@ -8,7 +8,6 @@ import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.converter.HttpMessageNotReadableException;
-import org.springframework.security.core.AuthenticationException;
 import org.springframework.validation.BindException;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
@@ -17,6 +16,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import javax.validation.ConstraintViolationException;
 import java.util.List;
 
 @RestControllerAdvice
@@ -42,6 +42,12 @@ public class ErrorHandlerAdvice {
         return buildValidationError(globalErrorList, fieldErrorList);
     }
 
+//    @ResponseStatus(HttpStatus.BAD_REQUEST)
+//    @ExceptionHandler(ConstraintViolationException.class)
+//    private ValidationErrorsOutputDto handleValidationError (ConstraintViolationException exception) {
+//        List<FieldError> fieldErrorList =
+//    }
+
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(HttpMessageNotReadableException.class)
     public ValidationErrorsOutputDto handleValidationError (HttpMessageNotReadableException exception) {
@@ -51,6 +57,8 @@ public class ErrorHandlerAdvice {
         List<FieldError> fieldErrors = List.of();
         return buildValidationError(globalErrorList, fieldErrors);
     }
+
+
 
     private ValidationErrorsOutputDto buildValidationError(List<ObjectError> globalErrorList, List<FieldError> fieldErrorList) {
         ValidationErrorsOutputDto validationErrors = new ValidationErrorsOutputDto();

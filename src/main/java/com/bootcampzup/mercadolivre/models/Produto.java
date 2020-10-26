@@ -21,6 +21,7 @@ public class Produto {
     @NotBlank(message = "o nome deve ser preenchido")
     private String nome;
     @NotNull(message = "o valor deve ser preenchido")
+    @Positive(message = "o valor deve ser positivo")
     private double valor;
     @Positive(message = "a quantidade deve ser positiva")
     private int quantidade;
@@ -45,7 +46,7 @@ public class Produto {
                    @Valid @NotNull Users dono,
                    @NotEmpty(message = "a descrição deve ser preenchida") @Length(max = 1000, message = "A descrição deve ter no maximo 1000 caracteres") String descricao,
                    @NotNull Categoria categoria, LocalDate instant,
-                   @Valid @Size(min = 3, message = "necessario ter pelo menos três caracteristicas") Collection<CaracteristicasRequest> caracteristicas) {
+                   @Size(min = 3, message = "necessario ter pelo menos três caracteristicas") Collection<CaracteristicasRequest> caracteristicas) {
         this.nome = nome;
         this.valor = valor;
         this.quantidade = quantidade;

@@ -7,10 +7,7 @@ import com.bootcampzup.mercadolivre.models.Produto;
 import com.bootcampzup.mercadolivre.models.Users;
 import org.hibernate.validator.constraints.Length;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Positive;
+import javax.validation.constraints.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -29,9 +26,10 @@ public class ProdutoRequest {
     private final String descricao;
     @ExistsId(fieldname = "id", domainClass = Categoria.class, message = "não foi encontrada essa categoria")
     private final long categoriaId;
+    @Size(min = 3, message = "são necessarias pelo menos 3 caracteristicas")
     private List<CaracteristicasRequest> caracteristicas = new ArrayList<>();
 
-    public ProdutoRequest(String nome, double valor, int quantidade, String descricao, long categoriaId, List<CaracteristicasRequest> caracteristicas) {
+    public ProdutoRequest(String nome, double valor, int quantidade, String descricao, long categoriaId, @Size(min = 3, message = "são necessarias pelo menos 3 caracteristicas") List<CaracteristicasRequest> caracteristicas) {
         this.nome = nome;
         this.valor = valor;
         this.quantidade = quantidade;
